@@ -16,7 +16,7 @@
 
         <div class="bigcash">
         <div class="cash">
-            <h3>₹0.00</h3>
+            <h3 style="font-weight: 500;" >₹0.00</h3>
             <i class="ri-money-rupee-circle-fill"></i>
         </div>
         <button class="wallet">Wallet</button>
@@ -58,7 +58,7 @@
             <div class="mines-gems-row" style="display: flex; gap: 8px;">
                 <div class="mines-col" style="flex:1;">
                     <h5>Mines</h5>
-                    <select name="Mines" style="width:100%;">
+                    <select name="Mines" style="width:100%; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.425);">
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -88,13 +88,13 @@
                 </div>
                 <div class="gems-col" style="flex:1; display:none;">
                     <div style="color:#B1BAD3; font-size:12px; margin-bottom:2px;">Gems</div>
-                    <input id="gems-input" type="number" min="0" value="0" style="width:100%; background:#2F4553; color:#B1BAD3; border:none; border-radius:5px; padding:10px 10px;">
+                    <input id="gems-input" type="number" min="0" value="0" style="width:100%; background:#2F4553; color:#fff; border:none; border-radius:5px; padding:10px 10px; box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.425);">
                 </div>
             </div>
 
             <div class="profit-field" style="display:none; margin-top:10px;">
                 <div style="color:#B1BAD3; font-size:13px; margin-bottom:2px;">Total Profit</div>
-                <input id="profit-input" type="number" min="0" value="0" style="width:100%; background:#2F4553; color:#B1BAD3; border:none; border-radius:5px; padding:10px 10px;">
+                <input id="profit-input" type="number" min="0" value="0" style="width:100%; background:#2F4553; color:#fff; border:none; border-radius:5px; padding:10px 10px;  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.425);">
             </div>
 
             <button class="pick-random-btn" style="display:none; width:100%; margin-top:10px; background:#2F4553; color:#fff; border:none; border-radius:3px; padding:14px 0; font-weight: 700; transition-duration: 100ms; ">Pick Random Tile</button>
@@ -129,6 +129,13 @@
             <div class="card"></div>
             <div class="card"></div>
         </div>
+        <!-- Cashout Popup Overlay -->
+        <div id="cashout-popup" class="cashout-popup" style="display:none;">
+            <div class="cashout-popup-content">
+                <div class="cashout-multiplier">1.00x</div>
+                <div class="cashout-total">₹0.00</div>
+            </div>
+        </div>
         </div>
     </main>
 
@@ -137,5 +144,23 @@
 
 
     <script src="script.js"></script>
+    <!-- Wallet Modal -->
+    <div id="wallet-modal" class="wallet-modal" style="display:none;">
+        <div class="wallet-modal-content">
+            <span class="wallet-modal-close">&times;</span>
+            <h2>Add Money to Wallet</h2>
+            <form id="wallet-form" autocomplete="off">
+                <label for="upi-input">UPI ID</label>
+                <input type="text" id="upi-input" placeholder="yourupi@bank" required style="margin-bottom:10px;">
+                <label for="amount-input">Amount (₹500 - ₹50,000)</label>
+                <input type="number" id="amount-input" min="500" max="50000" placeholder="Enter amount" required style="margin-bottom:10px;">
+                <label for="pin-input">PIN</label>
+                <input type="password" id="pin-input" maxlength="4" placeholder="Enter 4-digit PIN" required style="margin-bottom:10px;">
+                <button type="submit" id="wallet-submit-btn">Add Money</button>
+                <div id="wallet-loader-area" style="margin-top:15px; min-height:32px;"></div>
+                <div id="wallet-error" style="color:#ff4d4f; margin-top:8px; font-size:13px;"></div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

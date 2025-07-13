@@ -37,10 +37,13 @@ nav .cash {
     font-size: 12px;
     font-weight: 100;
     color: white;
-    background-color: #071824;
+    background-color: #0F212E;
     padding: 12px 16px;
     border-radius: 5px;
-    border: 2px solid rgba(19, 19, 19, 0.78);
+}
+
+nav .cash:hover {
+    background-color: #071824;
 }
 
 nav .cash i {
@@ -106,6 +109,7 @@ main {
 .window {
     overflow: hidden;
     display: flex;
+    position: relative; /* Added position relative */
 }
 
 .bet {
@@ -146,6 +150,16 @@ main {
 /* Prevent pointer on revealed cards */
 .card.revealed {
     cursor: default;
+    pointer-events: none;
+}
+
+.card, .card img {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: auto; /* keep pointer events for .card unless revealed */
 }
 
 .bet .bigbtn {
@@ -240,7 +254,7 @@ select:focus, .bet input:focus {
 }
 
 select {
-    border: 2px solid #2F4553;
+    border: 1px solid #2F4553;
     border-radius: 5px;
     color: white;
     font-weight: 900;
@@ -321,7 +335,7 @@ select, .bet input:hover {
     background: #000000;
     border-radius: 50%;
     opacity: 0.7;
-    animation: loader-bounce 1s infinite both;
+    animation: loader-bounce 1000ms infinite both;
 }
 .loader-dots span:nth-child(2) {
     animation-delay: 0.2s;
@@ -361,13 +375,17 @@ select, .bet input:hover {
     animation: imgpop 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.imgpop {
+    animation: imgpop 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 @keyframes imgpop {
     0% {
-        transform: scale(0.7);
+        transform: scale(0.2);
         opacity: 0.2;
     }
     60% {
-        transform: scale(1.1);
+        transform: scale(1);
         opacity: 1;
     }
     100% {
@@ -389,4 +407,206 @@ select, .bet input:hover {
 }
 .noshadow {
     box-shadow: none !important;
+}
+
+/* Wallet Modal Styles */
+.wallet-modal {
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.wallet-modal-content {
+    background: #213743;
+    padding: 32px 28px 24px 28px;
+    border-radius: 12px;
+    min-width: 320px;
+    max-width: 90vw;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.67);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+.wallet-modal-content form {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.wallet-modal-content h2 {
+    color: #B1BAD3;
+    margin-bottom: 18px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+}
+.wallet-modal-content label {
+    color: #B1BAD3;
+    font-size: 14px;
+    margin-bottom: 3px;
+    margin-top: 0;
+    font-weight: 500;
+}
+.wallet-modal-content input {
+    background: #0F212E;
+    color: #fff;
+    border: 1.5px solid #2F4553;
+    border-radius: 5px;
+    padding: 10px 12px;
+    margin-bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 15px;
+    font-weight: 600;
+}
+.wallet-modal-content input:focus {
+    outline: none;
+    border-color: #557086;
+}
+#wallet-submit-btn {
+    background: #00E701;
+    color: #222;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100%;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+#wallet-submit-btn:disabled {
+    background: #b6eab7;
+    color: #888;
+    cursor: not-allowed;
+}
+.wallet-modal-close {
+    position: absolute;
+    right: 16px;
+    top: 12px;
+    font-size: 26px;
+    color: #B1BAD3;
+    cursor: pointer;
+    font-weight: 700;
+    transition: color 0.15s;
+}
+.wallet-modal-close:hover {
+    color: #fff;
+}
+#wallet-loader-area {
+    margin-top: 15px;
+    min-height: 32px;
+}
+#wallet-error {
+    color: #ff4d4f;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+/* Loader dots for wallet modal */
+.wallet-loader-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 32px;
+}
+.wallet-loader-dots span {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #00E701;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: loader-bounce 1s infinite both;
+}
+.wallet-loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+.wallet-loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+/* Tick SVG animation */
+.wallet-tick {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+}
+.wallet-tick svg {
+    width: 32px;
+    height: 32px;
+    display: block;
+    margin: 0 auto;
+    stroke: #00E701;
+    stroke-width: 3.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: tick-pop 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes tick-pop {
+    0% { transform: scale(0.7); opacity: 0.2; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Cashout Popup Styles */
+.cashout-popup {
+    padding: 10px;
+    position: absolute;
+    top: 40%;
+    right: 28%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.cashout-popup-content {
+    background-color: aqua;
+    width: 150px;
+    height: 130px;
+    min-width: 120px;
+    min-height: 90px;
+    background: #1A2C38;
+    border-radius: 14px;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 40px 20px;
+    border: 7px solid #00E701;
+    position: relative;
+    animation: cashout-pop 0.25s cubic-bezier(0.4,0,0.2,1);
+}
+
+@keyframes cashout-pop {
+    0% { transform: scale(0.7); opacity: 0.2; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.cashout-multiplier {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: #00E701;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-bottom: 5px solid #2F4553;
+    text-shadow: 0 2px 8px #0f212e77;
+    letter-spacing: 1px;
+}
+
+.cashout-total {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #00E701;
+    margin-top: 2px;
+    margin-bottom: 0px;
+    letter-spacing: 0.5px;
 }
