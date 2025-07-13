@@ -108,37 +108,58 @@ function resetBetButton() {
     hideBetGameUI();
 }
 
+function showLoaderOnButton(btn) {
+    btn.disabled = true;
+    btn._originalText = btn.textContent;
+    btn.innerHTML = `<span class="loader-dots"><span></span><span></span><span></span></span>`;
+}
+
+function hideLoaderOnButton(btn) {
+    btn.disabled = false;
+    if (btn._originalText) {
+        btn.textContent = btn._originalText;
+        delete btn._originalText;
+    }
+}
+
 // On Bet button click: randomize mines and reset cards
 betBtn.addEventListener('click', () => {
-    if (!gameActive) {
-        // Start game
-        const mineCount = parseInt(minesSelect.value, 10);
-        mineIndices = getRandomIndices(cards.length, mineCount);
-        gameActive = true;
-        resetCards();
-        betBtn.textContent = 'Cashout';
-        betBtn.classList.add('cashout');
-        setBettingFieldsDisabled(true);
-        // Set gems to 25 - mines and keep disabled
-        gems = 25 - mineCount;
-        gemsInput.value = gems;
-        gemsInput.disabled = true;
-        showBetGameUI(mineCount);
-        profit = 0;
-        updateProfit();
-        // Set cashout button bg to #108F22 until first card click
-        betBtn.style.backgroundColor = '#108F22';
-    } else {
-        // Cashout
-        resetBetButton();
-        resetCards();
-    }
+    showLoaderOnButton(betBtn);
+    setTimeout(() => {
+        hideLoaderOnButton(betBtn);
+        if (!gameActive) {
+            // Start game
+            const mineCount = parseInt(minesSelect.value, 10);
+            mineIndices = getRandomIndices(cards.length, mineCount);
+            gameActive = true;
+            resetCards();
+            betBtn.textContent = 'Cashout';
+            betBtn.classList.add('cashout');
+            setBettingFieldsDisabled(true);
+            // Set gems to 25 - mines and keep disabled
+            gems = 25 - mineCount;
+            gemsInput.value = gems;
+            gemsInput.disabled = true;
+            showBetGameUI(mineCount);
+            profit = 0;
+            updateProfit();
+            // Set cashout button bg to #108F22 until first card click
+            betBtn.style.backgroundColor = '#108F22';
+        } else {
+            // Cashout
+            resetBetButton();
+            resetCards();
+        }
+    }, 400);
 });
 
 // Card click logic
 cards.forEach((card, idx) => {
     card.addEventListener('click', () => {
         if (!gameActive || card.classList.contains('revealed') || mineHit) return;
+
+        // Show loader on Bet/Cashout button
+        showLoaderOnButton(betBtn);
 
         // On first card click, revert cashout button bg to normal
         if (clickedIndices.length === 0) {
@@ -189,6 +210,7 @@ cards.forEach((card, idx) => {
                     // Restore pointer events and flag for next game
                     cards.forEach(c => c.style.pointerEvents = '');
                     mineHit = false;
+                    hideLoaderOnButton(betBtn); // Hide loader after all is done
                 }, 500);
             } else {
                 img.src = './assets/blue.png';
@@ -197,6 +219,7 @@ cards.forEach((card, idx) => {
                 // Update gems and profit
                 updateGems();
                 updateProfit();
+                hideLoaderOnButton(betBtn); // Hide loader after card is processed
             }
         }, 360);
 
@@ -232,6 +255,14 @@ pickRandomBtn.addEventListener('click', () => {
 });
 
 // On page load, set gems and profit fields to initial value and disable editing
+(() => {
+    const mines = parseInt(minesSelect.value, 10);
+    gems = 25 - mines;
+    gemsInput.value = gems;
+    gemsInput.disabled = true;
+    profitInput.value = 0;
+    profitInput.disabled = true;
+})();
 (() => {
     const mines = parseInt(minesSelect.value, 10);
     gems = 25 - mines;

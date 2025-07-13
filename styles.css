@@ -84,12 +84,13 @@ nav .icons h4 {
     font-size: 15px;
 }
 
+.pick-random-btn:hover {
+    background-color: #557086 !important;
+}
 
-
-
-
-
-
+.pick-random-btn:active {
+    transform: scale(98%);
+}
 
 /* main */
 
@@ -284,6 +285,7 @@ select, .bet input:hover {
 }
 
 .btn3 {
+    border: none;
     margin-top: 20px;
     background-color: #00E701;
     padding: 20px 70px;
@@ -292,6 +294,44 @@ select, .bet input:hover {
     font-weight: 700;
     font-size: 16px;
     cursor: pointer;
+    transition-duration: 100ms;
+    height: 56px;
+    min-width: 180px; /* Prevents shrinking when loader is shown */
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+}
+
+.loader-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 16px;
+    font-size: inherit;
+    gap: 2px;
+}
+.loader-dots span {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin: 0;
+    background: #000000;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: loader-bounce 1s infinite both;
+}
+.loader-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.loader-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+@keyframes loader-bounce {
+    0%, 80%, 100% { transform: scale(0.8); opacity: 0.7; }
+    40% { transform: scale(1.2); opacity: 1; }
 }
 
 .popanimate {
@@ -344,6 +384,9 @@ select, .bet input:hover {
 }
 
 /* Remove box-shadow for revealed/clicked cards */
+.noshadow {
+    box-shadow: none !important;
+}
 .noshadow {
     box-shadow: none !important;
 }
