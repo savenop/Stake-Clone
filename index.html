@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Stake</title>
+    <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Stake-com-logo-high-res.jpg/2048px-Stake-com-logo-high-res.jpg" type="./image/png">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,7 +17,7 @@
 
         <div class="bigcash">
         <div class="cash">
-            <h3 style="font-weight: 500;" >₹0.00</h3>
+            <h3 style="font-weight: 500;" ></h3>
             <i class="ri-money-rupee-circle-fill"></i>
         </div>
         <button class="wallet">Wallet</button>
@@ -129,7 +130,7 @@
             <div class="card"></div>
             <div class="card"></div>
         </div>
-        <!-- Cashout Popup Overlay -->
+        <!-- Cashout Popup  -->
         <div id="cashout-popup" class="cashout-popup" style="display:none;">
             <div class="cashout-popup-content">
                 <div class="cashout-multiplier">1.00x</div>
@@ -144,15 +145,15 @@
 
 
     <script src="script.js"></script>
-    <!-- Wallet Modal -->
+    <!-- Wallet ka system -->
     <div id="wallet-modal" class="wallet-modal" style="display:none;">
         <div class="wallet-modal-content">
             <span class="wallet-modal-close">&times;</span>
-            <h2>Add Money to Wallet</h2>
+            <h2>Add Money</h2>
             <form id="wallet-form" autocomplete="off">
                 <label for="upi-input">UPI ID</label>
                 <input type="text" id="upi-input" placeholder="yourupi@bank" required style="margin-bottom:10px;">
-                <label for="amount-input">Amount (₹500 - ₹50,000)</label>
+                <label for="amount-input">Amount (₹500 - ₹49,999)</label>
                 <input type="number" id="amount-input" min="500" max="50000" placeholder="Enter amount" required style="margin-bottom:10px;">
                 <label for="pin-input">PIN</label>
                 <input type="password" id="pin-input" maxlength="4" placeholder="Enter 4-digit PIN" required style="margin-bottom:10px;">
@@ -162,5 +163,46 @@
             </form>
         </div>
     </div>
+
+
+    <div id="linkdin-widget">
+
+        <!-- From Uiverse.io by vikas7754 --> 
+<div class="tooltip-container">
+  <div class="tooltip">
+    <div class="profile">
+      <div class="user">
+        <div class="img">D</div>
+        <div class="details">
+          <div class="name">Devansh</div>
+          <div class="username">@savenop</div>
+        </div>
+      </div>
+      <div class="about">100+ Connections</div>
+    </div>
+  </div>
+  <div class="text">
+    <a class="icon" href="https://www.linkedin.com/in/devansh-chaudharyy/" target="_blank">
+      <div class="layer">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span class="fab fa-linkedin">
+          <svg viewBox="0 0 448 512" height="1em">
+            <path
+              d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"
+            ></path>
+          </svg>
+        </span>
+      </div>
+      <div class="text">LinkedIn</div>
+    </a>
+  </div>
+</div>
+
+
+  </div>
+</div>
 </body>
 </html>

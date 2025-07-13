@@ -272,7 +272,7 @@ betBtn.addEventListener('click', () => {
         if (isNaN(betValue) || betValue < 0) {
             betInput.style.borderColor = "#ff4d4f";
             betInput.value = "";
-            betInput.placeholder = "Enter valid amount";
+            betInput.placeholder = "0.00";
             hideLoaderOnButton(betBtn);
             return;
         }
@@ -283,7 +283,7 @@ betBtn.addEventListener('click', () => {
         if (betValue > walletBal) {
             betInput.style.borderColor = "#ff4d4f";
             betInput.value = "";
-            betInput.placeholder = "Insufficient balance";
+            betInput.placeholder = "0.00";
             hideLoaderOnButton(betBtn);
             return;
         }
@@ -458,9 +458,9 @@ cards.forEach((card, idx) => {
                     cards.forEach((c, i) => {
                         if (!c.classList.contains('revealed')) {
                             // Add popanimate for smooth pop effect
-                            c.classList.add('popanimate');
+                            c.classList.add('pop');
                             setTimeout(() => {
-                                c.classList.remove('popanimate');
+                                c.classList.remove('pop');
                             }, 360);
 
                             c.classList.add('revealed', 'untouched-reveal', 'noshadow');
@@ -531,6 +531,11 @@ betInput.addEventListener('blur', () => {
     let val = parseFloat(betInput.value);
     if (isNaN(val) || val < 0) val = 0;
     betInput.value = val.toFixed(2);
+});
+
+// Auto-select all text on focus/click for bet input
+betInput.addEventListener('focus', function() {
+    this.select();
 });
 
 // On page load, set bet input to 0.00 if empty or invalid
