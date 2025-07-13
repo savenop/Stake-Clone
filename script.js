@@ -6,8 +6,6 @@ const halfBtn = document.querySelector('.betinp .half');
 const dblBtn = document.querySelector('.betinp .dbl');
 const minesCol = document.querySelector('.mines-col');
 const gemsCol = document.querySelector('.gems-col');
-const minesLabel = document.querySelector('.mines-label');
-const minesCountSpan = document.getElementById('mines-count');
 const gemsInput = document.getElementById('gems-input');
 const profitField = document.querySelector('.profit-field');
 const profitInput = document.getElementById('profit-input');
@@ -47,6 +45,14 @@ function setBettingFieldsDisabled(disabled) {
     minesSelect.disabled = disabled;
     halfBtn.disabled = disabled;
     dblBtn.disabled = disabled;
+    // Hide SVG arrow by removing background-image when disabled
+    if (disabled) {
+        minesSelect.style.backgroundImage = 'none';
+        minesSelect.style.backgroundColor = '#2F4553';
+    } else {
+        minesSelect.style.backgroundImage = '';
+        minesSelect.style.backgroundColor = '';
+    }
 }
 
 function updateProfit() {
@@ -55,27 +61,26 @@ function updateProfit() {
 }
 
 function updateGems() {
-    gems = clickedIndices.length;
-    gemsInput.value = gems;
+    // Show remaining gems (total gems - gems clicked)
+    gemsInput.value = gems - clickedIndices.length;
 }
 
 function showBetGameUI(mineCount) {
     // 1. Bet amount input opacity
     betInput.style.opacity = '0.5';
 
-    // 2. Mines select shrink, show label
+    // 2. Mines select shrink (no label)
     minesSelect.style.width = '100%';
     minesSelect.parentElement.style.flex = '1';
-    minesLabel.style.display = '';
-    minesCountSpan.textContent = mineCount;
 
     // 3. Show gems field
     gemsCol.style.display = '';
-    gemsInput.value = 0;
+    gemsInput.disabled = true;
 
-    // 4. Show profit field
+    // 4. Show profit field and disable editing
     profitField.style.display = '';
     profitInput.value = 0;
+    profitInput.disabled = true;
 
     // 5. Show pick random tile button
     pickRandomBtn.style.display = '';
@@ -86,16 +91,18 @@ function showBetGameUI(mineCount) {
 
 function hideBetGameUI() {
     betInput.style.opacity = '1';
-    minesLabel.style.display = 'none';
     gemsCol.style.display = 'none';
     profitField.style.display = 'none';
     pickRandomBtn.style.display = 'none';
     betBtn.style.marginTop = '';
+    gemsInput.disabled = true;
+    profitInput.disabled = true;
 }
 
 function resetBetButton() {
     betBtn.textContent = 'Bet';
     betBtn.classList.remove('cashout');
+    betBtn.style.backgroundColor = ''; // Reset to default
     setBettingFieldsDisabled(false);
     gameActive = false;
     hideBetGameUI();
@@ -112,11 +119,15 @@ betBtn.addEventListener('click', () => {
         betBtn.textContent = 'Cashout';
         betBtn.classList.add('cashout');
         setBettingFieldsDisabled(true);
+        // Set gems to 25 - mines and keep disabled
+        gems = 25 - mineCount;
+        gemsInput.value = gems;
+        gemsInput.disabled = true;
         showBetGameUI(mineCount);
-        gems = 0;
         profit = 0;
-        updateGems();
         updateProfit();
+        // Set cashout button bg to #108F22 until first card click
+        betBtn.style.backgroundColor = '#108F22';
     } else {
         // Cashout
         resetBetButton();
@@ -128,6 +139,11 @@ betBtn.addEventListener('click', () => {
 cards.forEach((card, idx) => {
     card.addEventListener('click', () => {
         if (!gameActive || card.classList.contains('revealed') || mineHit) return;
+
+        // On first card click, revert cashout button bg to normal
+        if (clickedIndices.length === 0) {
+            betBtn.style.backgroundColor = ''; // Remove inline style, revert to CSS
+        }
 
         // If this card is a mine, immediately block further clicks
         if (mineIndices.includes(idx)) {
@@ -187,23 +203,43 @@ cards.forEach((card, idx) => {
     });
 });
 
-// Allow editing of gems and profit fields
+// Update gems field when mines selection changes (before bet starts)
+minesSelect.addEventListener('input', () => {
+    if (!gameActive) {
+        const mines = parseInt(minesSelect.value, 10);
+        gems = 25 - mines;
+        gemsInput.value = gems;
+        gemsInput.disabled = true;
+    }
+});
+
+// Always prevent editing
 gemsInput.addEventListener('input', (e) => {
-    gems = parseInt(e.target.value, 10) || 0;
+    gemsInput.value = gems;
 });
 profitInput.addEventListener('input', (e) => {
-    profit = parseFloat(e.target.value) || 0;
+    profitInput.value = profit; // Always prevent editing
 });
 
 // Pick random tile button logic
 pickRandomBtn.addEventListener('click', () => {
     if (!gameActive || mineHit) return;
-    // Find all unclicked, non-mine cards
-    const safeIndices = Array.from(cards).map((c, i) => (!c.classList.contains('revealed') && !mineIndices.includes(i)) ? i : null).filter(i => i !== null);
-    if (safeIndices.length === 0) return;
-    const randIdx = safeIndices[Math.floor(Math.random() * safeIndices.length)];
+    // Pick any random card out of 25 (not just safe ones)
+    const unclickedIndices = Array.from(cards).map((c, i) => (!c.classList.contains('revealed')) ? i : null).filter(i => i !== null);
+    if (unclickedIndices.length === 0) return;
+    const randIdx = unclickedIndices[Math.floor(Math.random() * unclickedIndices.length)];
     cards[randIdx].click();
 });
+
+// On page load, set gems and profit fields to initial value and disable editing
+(() => {
+    const mines = parseInt(minesSelect.value, 10);
+    gems = 25 - mines;
+    gemsInput.value = gems;
+    gemsInput.disabled = true;
+    profitInput.value = 0;
+    profitInput.disabled = true;
+})();
 
 
 

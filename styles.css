@@ -258,6 +258,14 @@ select {
     cursor: pointer;
 }
 
+
+select:disabled {
+    border: none;
+    background-color: #2F4553 !important;
+    color: #fff;
+    background-image: none !important; /* Hide SVG arrow when disabled */
+}
+
 /* fine */
 select::-webkit-scrollbar {
     width: 8px;
