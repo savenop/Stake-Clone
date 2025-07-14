@@ -650,11 +650,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 walletSubmitBtn.disabled = false;
                 return;
             }
-            if (pin !== '6969') {
-                walletError.textContent = 'Incorrect PIN.';
-                walletSubmitBtn.disabled = false;
-                return;
-            }
+            // if (pin !== '') {
+            //     walletError.textContent = 'Incorrect PIN.';
+            //     walletSubmitBtn.disabled = false;
+            //     return;
+            // }
 
             // Show loader
             walletLoaderArea.innerHTML = `
