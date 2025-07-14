@@ -125,8 +125,8 @@ main {
     padding: 20px 190px;
     display: grid;
     place-items: center;
-    grid-template-columns: repeat(5, 15px); 
-    column-gap: 98px;
+    grid-template-columns: repeat(5, 1.67vh); 
+    column-gap: 13.5vh;
     row-gap: 20px;
     background-color: #0F212E;
 
